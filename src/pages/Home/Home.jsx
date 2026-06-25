@@ -149,9 +149,9 @@ const Home = () => {
           <img
             src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?w=800&q=80"
             alt="Students at MIIT"
-            className="rounded-2xl w-full object-cover h-[360px]"
+            className="rounded-2xl w-full object-cover h-90"
           />
-          <div className="absolute -bottom-5 -left-5 bg-white border border-[#d0e4e9] rounded-xl px-5 py-4 shadow-md max-w-[200px]">
+          <div className="absolute -bottom-5 -left-5 bg-white border border-[#d0e4e9] rounded-xl px-5 py-4 shadow-md max-w-50">
             <p className="text-2xl font-bold text-[#356575]">95%</p>
             <p className="text-[12px] text-gray-500 mt-0.5">Students placed within 3 months of graduation</p>
           </div>

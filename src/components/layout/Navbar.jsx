@@ -57,11 +57,11 @@ const Navbar = () => {
     <header>
       {/* ── Top Bar ── */}
       <div className="bg-white border-b border-[#d0e4e9]">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-[64px] flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
           {/* Brand */}
           <div className="flex items-center gap-3">
-            <div className="w-[36px] h-[36px] bg-[#356575] rounded-[9px] flex items-center justify-center text-white font-semibold text-[14px]">
+            <div className="w-9 h-9 bg-[#356575] rounded-[9px] flex items-center justify-center text-white font-semibold text-[14px]">
               M
             </div>
             <div>
@@ -90,7 +90,7 @@ const Navbar = () => {
 
             <div className="w-px h-7 bg-[#d0e4e9]" />
 
-            <button className="bg-[#356575] hover:bg-[#2A5161] text-white text-[13px] font-medium px-[18px] py-2 rounded-lg transition-colors">
+            <button className="bg-[#356575] hover:bg-[#2A5161] text-white text-[13px] font-medium px-4.5 py-2 rounded-lg transition-colors">
               Enquire now
             </button>
           </div>
@@ -102,7 +102,7 @@ const Navbar = () => {
             </button>
             <button
               onClick={() => setMobileOpen((p) => !p)}
-              className="w-9 h-9 flex flex-col items-center justify-center gap-[5px] rounded-md bg-[#eaf4f7] text-[#356575]"
+              className="w-9 h-9 flex flex-col items-center justify-center gap-1.25 rounded-md bg-[#eaf4f7] text-[#356575]"
               aria-label="Toggle menu"
             >
               {mobileOpen ? (
@@ -111,9 +111,9 @@ const Navbar = () => {
                 </svg>
               ) : (
                 <>
-                  <span className="w-5 h-[2px] bg-[#356575] rounded" />
-                  <span className="w-5 h-[2px] bg-[#356575] rounded" />
-                  <span className="w-5 h-[2px] bg-[#356575] rounded" />
+                  <span className="w-5 h-0.5 bg-[#356575] rounded" />
+                  <span className="w-5 h-0.5 bg-[#356575] rounded" />
+                  <span className="w-5 h-0.5 bg-[#356575] rounded" />
                 </>
               )}
             </button>
@@ -124,7 +124,7 @@ const Navbar = () => {
 
       {/* ── Desktop Nav Bar ── */}
       <div className="bg-[#356575] sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-[52px] hidden lg:flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-13 hidden lg:flex items-center justify-between">
 
           <div className="flex items-center gap-0.5">
             {NAV_LINKS.map((item) => {
@@ -138,7 +138,7 @@ const Navbar = () => {
                     onMouseLeave={() => setOpenDropdown(null)}
                   >
                     <button
-                      className={`flex items-center gap-1.5 px-[12px] py-[6px] rounded-md text-[13.5px] font-medium transition-all duration-150
+                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-all duration-150
                         ${isActive
                           ? 'bg-white/15 text-white'
                           : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -180,7 +180,7 @@ const Navbar = () => {
                 <Link
                   key={item.to}
                   to={item.to}
-                  className={`px-[12px] py-[6px] rounded-md text-[13.5px] font-medium transition-all duration-150
+                  className={`px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-all duration-150
                     ${pathname === item.to
                       ? 'bg-white/15 text-white'
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -200,7 +200,7 @@ const Navbar = () => {
               { href: 'https://youtube.com', label: 'YT' },
             ].map(({ href, label }) => (
               <a key={label} href={href} target="_blank" rel="noreferrer"
-                className="w-[28px] h-[28px] bg-white/10 hover:bg-white/20 rounded-md flex items-center justify-center text-white/70 hover:text-white transition-colors text-[12px] font-medium">
+                className="w-7 h-7 bg-white/10 hover:bg-white/20 rounded-md flex items-center justify-center text-white/70 hover:text-white transition-colors text-[12px] font-medium">
                 {label}
               </a>
             ))}
