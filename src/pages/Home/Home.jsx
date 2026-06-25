@@ -10,14 +10,14 @@ const STATS = [
 
 const COURSES = [
   {
-    icon: '🏗',
+    icon: '',
     title: 'BIM for Construction',
     desc: 'Master Building Information Modeling and lead the future of smart construction.',
     link: '/departments/bim-construction',
     tag: 'In Demand',
   },
   {
-    icon: '📱',
+    icon: '',
     title: 'Digital Marketing',
     desc: 'Drive brand growth with SEO, paid ads, content strategy and data analytics.',
     link: '/departments/digital-marketing',
@@ -124,10 +124,10 @@ const Home = () => {
           </p>
           <div className="mt-8 grid grid-cols-2 gap-4">
             {[
-              { icon: '🎯', text: 'Industry-aligned curriculum' },
-              { icon: '🤝', text: 'Live project experience' },
-              { icon: '📜', text: 'Certified by Google & Autodesk' },
-              { icon: '🚀', text: '100% placement support' },
+              { icon: '', text: 'Industry-aligned curriculum' },
+              { icon: '', text: 'Live project experience' },
+              { icon: '', text: 'Certified by Google & Autodesk' },
+              { icon: '', text: '100% placement support' },
             ].map(({ icon, text }) => (
               <div key={text} className="flex items-center gap-3">
                 <div className="w-9 h-9 bg-[#eaf4f7] rounded-lg flex items-center justify-center text-base shrink-0">
@@ -228,12 +228,12 @@ const Home = () => {
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
           {[
-            { icon: '🏆', title: 'Industry experts as faculty', desc: 'Learn directly from professionals who have worked at top companies and bring real-world insight to every class.' },
-            { icon: '💼', title: 'Dedicated placement cell', desc: 'A full-time team working on your behalf — resume building, mock interviews, employer connects, and job referrals.' },
-            { icon: '🖥', title: 'Hands-on lab training', desc: 'Access to licensed industry tools like Revit, Navisworks, Google Ads Manager, and SEMrush from day one.' },
-            { icon: '📅', title: 'Flexible batch timings', desc: 'Morning and evening batches designed for both fresh graduates and working professionals.' },
-            { icon: '🌐', title: 'Live project exposure', desc: 'Work on actual client briefs and real campaigns as part of your coursework — not simulations.' },
-            { icon: '📜', title: 'Globally recognized certificates', desc: 'Graduate with certificates from Google, Autodesk, Meta, and HubSpot alongside your MIIT diploma.' },
+            { icon: '', title: 'Industry experts as faculty', desc: 'Learn directly from professionals who have worked at top companies and bring real-world insight to every class.' },
+            { icon: '', title: 'Dedicated placement cell', desc: 'A full-time team working on your behalf — resume building, mock interviews, employer connects, and job referrals.' },
+            { icon: '', title: 'Hands-on lab training', desc: 'Access to licensed industry tools like Revit, Navisworks, Google Ads Manager, and SEMrush from day one.' },
+            { icon: '', title: 'Flexible batch timings', desc: 'Morning and evening batches designed for both fresh graduates and working professionals.' },
+            { icon: '', title: 'Live project exposure', desc: 'Work on actual client briefs and real campaigns as part of your coursework — not simulations.' },
+            { icon: '', title: 'Globally recognized certificates', desc: 'Graduate with certificates from Google, Autodesk, Meta, and HubSpot alongside your MIIT diploma.' },
           ].map(({ icon, title, desc }) => (
             <div key={title} className="bg-gray-50 rounded-2xl p-6 hover:bg-[#eaf4f7] transition-colors group">
               <div className="w-11 h-11 bg-white rounded-xl flex items-center justify-center text-xl mb-4 shadow-sm">
