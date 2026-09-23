@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../../assets/images/logo.png';
+
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
   {
@@ -61,15 +62,36 @@ const SOCIALS = [
   },
 ];
 
-const NAV_BAR_HEIGHT = 72;
-
+/**
+ * Navbar
+ * The whole header (top bar + nav bar) is `position: fixed` to the viewport,
+ * so it never moves as the rest of the page scrolls. A spacer below it
+ * reserves the equivalent space in the document flow; its height is measured
+ * live via ResizeObserver, so it stays correct across breakpoints and any
+ * header height changes.
+ */
 const Navbar = () => {
   const { pathname } = useLocation();
   const [openDropdown, setOpenDropdown] = useState(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileExpanded, setMobileExpanded] = useState(null);
+  const [headerHeight, setHeaderHeight] = useState(0);
+  const headerRef = useRef(null);
   const navRef = useRef(null);
   const closeTimer = useRef(null);
+
+  // Measure the fixed header's real height so the spacer below it always
+  // matches — no hardcoded px values, works across breakpoints and when
+  // content (e.g. dropdown state) changes the header's height.
+  useEffect(() => {
+    const el = headerRef.current;
+    if (!el) return;
+    const update = () => setHeaderHeight(el.offsetHeight);
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
@@ -79,14 +101,18 @@ const Navbar = () => {
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
+    return () => {
+      document.body.style.overflow = '';
+    };
   }, [mobileOpen]);
 
   useEffect(() => {
     const onClick = (e) => {
       if (navRef.current && !navRef.current.contains(e.target)) setOpenDropdown(null);
     };
-    const onKey = (e) => { if (e.key === 'Escape') setOpenDropdown(null); };
+    const onKey = (e) => {
+      if (e.key === 'Escape') setOpenDropdown(null);
+    };
     document.addEventListener('mousedown', onClick);
     document.addEventListener('keydown', onKey);
     return () => {
@@ -115,193 +141,158 @@ const Navbar = () => {
         Skip to main content
       </a>
 
-      {/* Spacer FIRST — reserves space at the top of the page so the fixed
-          bar below doesn't render on top of / hide the top info bar */}
-      <div style={{ height: NAV_BAR_HEIGHT }} />
-
-      <div className="bg-white border-b border-[#d0e4e9]">
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
-
-          <Link to="/" className="flex items-center gap-3 shrink-0">
-        
-            <div>
-              <p className="text-[#1E3D47] font-semibold text-[16px] tracking-wide leading-none">MIIT</p>
-              <p className="text-[#7AAFC0] text-[10px] tracking-wide mt-0.5">Institute of Technology</p>
-            </div>
-          </Link>
-
-          <div className="hidden lg:flex items-center gap-4">
-            <a href="tel:+919876543210" className="flex items-center gap-2 group">
-              <div>
-                <p className="text-[#7AAFC0] text-[10px]">Enquiry hotline</p>
-                <p className="text-[#1E3D47] text-[13px] font-medium group-hover:text-[#356575] transition-colors">
-                  +91 98765 43210
-                </p>
-              </div>
-            </a>
-
-            <div className="w-px h-7 bg-[#d0e4e9]" />
-
-            <a href="mailto:info@miit.edu.in" className="flex items-center gap-2 group">
-              <div>
-                <p className="text-[#7AAFC0] text-[10px]">Email us</p>
-                <p className="text-[#1E3D47] text-[13px] font-medium group-hover:text-[#356575] transition-colors">
-                  info@miit.edu.in
-                </p>
-              </div>
-            </a>
-
-            <div className="w-px h-7 bg-[#d0e4e9]" />
-
-            <Link
-              to="/admissions"
-              className="bg-[#356575] hover:bg-[#2A5161] text-white text-[13px] font-medium px-4.5 py-2 rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#356575]"
-            >
-              Enquire now
+      {/* Fixed header — stays in place; page content scrolls underneath it */}
+      <div ref={headerRef} className="fixed top-0 left-0 right-0 z-50">
+        {/* ── TOP BAR: logo + contact + CTA ───────────────────────────── */}
+        <div className="bg-white border-b border-[#d0e4e9] relative z-40">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
+            <Link to="/" className="flex items-center gap-2 shrink-0">
+              <img src={logo} alt="MIIT Logo" className="w-30 h-30 object-contain" />
             </Link>
-          </div>
 
-          <div className="flex lg:hidden items-center gap-3">
-            <Link
-              to="/admissions"
-              className="bg-[#356575] text-white text-[12px] font-medium px-4 py-1.5 rounded-lg"
-            >
-              Enquire
-            </Link>
-            <button
-              onClick={() => setMobileOpen((p) => !p)}
-              className="w-9 h-9 flex flex-col items-center justify-center gap-1.25 rounded-md bg-[#eaf4f7] text-[#356575] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#356575]"
-              aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
-              aria-expanded={mobileOpen}
-              aria-controls="mobile-menu-panel"
-            >
-              {mobileOpen ? (
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              ) : (
-                <>
-                  <span className="w-5 h-0.5 bg-[#356575] rounded" />
-                  <span className="w-5 h-0.5 bg-[#356575] rounded" />
-                  <span className="w-5 h-0.5 bg-[#356575] rounded" />
-                </>
-              )}
-            </button>
-          </div>
-
-        </div>
-      </div>
-
-      <div
-        ref={navRef}
-        style={{ height: NAV_BAR_HEIGHT }}
-        className="bg-[#356575] fixed top-0 left-0 right-0 z-50 shadow-md shadow-black/10"
-      >
-        <div className="max-w-7xl mx-auto px-4 md:px-6 h-full hidden lg:flex items-center justify-between">
-
-          <Link to="/" className="flex items-center gap-2 mr-2 shrink-0">
-            <img
-              src={logo}
-              alt="MIIT Logo"
-              className="w-30 h-30 object-contain"
-            />
-          </Link>
-
-          <div className="flex items-center gap-0.5">
-            {NAV_LINKS.map((item) => {
-              if (item.dropdown) {
-                const isActive = item.dropdown.some((d) => pathname === d.to);
-                const isOpen = openDropdown === item.label;
-                return (
-                  <div
-                    key={item.label}
-                    className="relative"
-                    onMouseEnter={() => openOnHover(item.label)}
-                    onMouseLeave={closeOnHoverOut}
-                  >
-                    <button
-                      onClick={() => setOpenDropdown(isOpen ? null : item.label)}
-                      aria-haspopup="true"
-                      aria-expanded={isOpen}
-                      className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white
-                        ${isActive ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
-                    >
-                      {item.label}
-                      <svg
-                        className={`w-3 h-3 transition-transform duration-150 ${isOpen ? 'rotate-180' : ''}`}
-                        fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-
-                    <div
-                      role="menu"
-                      className={`absolute top-full left-0 mt-1.5 w-64 bg-white rounded-xl border border-[#d0e4e9] overflow-hidden shadow-lg z-50 origin-top transition-all duration-150
-                        ${isOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
-                    >
-                      {item.dropdown.map((sub) => (
-                        <Link
-                          key={sub.to}
-                          role="menuitem"
-                          to={sub.to}
-                          onClick={() => setOpenDropdown(null)}
-                          className={`flex items-center gap-3 px-4 py-2.5 text-[13px] transition-colors border-b border-[#eaf4f7] last:border-0
-                            ${pathname === sub.to
-                              ? 'bg-[#eaf4f7] text-[#356575] font-semibold'
-                              : 'text-[#1E3D47] hover:bg-[#eaf4f7] hover:text-[#356575]'
-                            }`}
-                        >
-                          <span className="w-1.5 h-1.5 rounded-full bg-[#356575] opacity-60 shrink-0" />
-                          {sub.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                );
-              }
-
-              return (
-                <Link
-                  key={item.to}
-                  to={item.to}
-                  className={`px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white
-                    ${pathname === item.to ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })}
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            {SOCIALS.map(({ href, label, path }) => (
-              <a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={label}
-                className="w-7 h-7 bg-white/10 hover:bg-white/20 rounded-md flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-              >
-                <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor"><path d={path} /></svg>
+            <div className="hidden lg:flex items-center gap-4">
+              <a href="tel:+919876543210" className="flex items-center gap-2 group">
+                <div>
+                  <p className="text-[#7AAFC0] text-[10px]">Enquiry hotline</p>
+                  <p className="text-[#1E3D47] text-[13px] font-medium group-hover:text-[#356575] transition-colors">
+                    +91 98765 43210
+                  </p>
+                </div>
               </a>
-            ))}
-          </div>
 
+              <div className="w-px h-7 bg-[#d0e4e9]" />
+
+              <a href="mailto:info@miit.edu.in" className="flex items-center gap-2 group">
+                <div>
+                  <p className="text-[#7AAFC0] text-[10px]">Email us</p>
+                  <p className="text-[#1E3D47] text-[13px] font-medium group-hover:text-[#356575] transition-colors">
+                    info@miit.edu.in
+                  </p>
+                </div>
+              </a>
+
+              <div className="w-px h-7 bg-[#d0e4e9]" />
+
+              <Link
+                to="/admissions"
+                className="bg-[#356575] hover:bg-[#2A5161] text-white text-[13px] font-medium px-4.5 py-2 rounded-lg transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#356575]"
+              >
+                Enquire now
+              </Link>
+            </div>
+
+            {/* Mobile: logo bar shows only the enquire CTA; menu toggle lives in the nav bar below */}
+            <div className="flex lg:hidden items-center">
+              <Link
+                to="/admissions"
+                className="bg-[#356575] text-white text-[12px] font-medium px-4 py-1.5 rounded-lg"
+              >
+                Enquire
+              </Link>
+            </div>
+          </div>
         </div>
 
-        <div className="flex lg:hidden items-center justify-between h-full px-4">
-          <Link to="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-white/15 rounded-[7px] flex items-center justify-center text-white font-semibold text-[13px]">
-              M
+        {/* ── BOTTOM BAR: navigation ───────────────────────────────────── */}
+        <div ref={navRef} className="bg-[#356575] relative z-40 shadow-md shadow-black/10">
+          <div className="max-w-7xl mx-auto px-4 md:px-6 h-[52px] hidden lg:flex items-center justify-between">
+            <div className="flex items-center gap-0.5">
+              {NAV_LINKS.map((item) => {
+                if (item.dropdown) {
+                  const isActive = item.dropdown.some((d) => pathname === d.to);
+                  const isOpen = openDropdown === item.label;
+                  return (
+                    <div
+                      key={item.label}
+                      className="relative"
+                      onMouseEnter={() => openOnHover(item.label)}
+                      onMouseLeave={closeOnHoverOut}
+                    >
+                      <button
+                        onClick={() => setOpenDropdown(isOpen ? null : item.label)}
+                        aria-haspopup="true"
+                        aria-expanded={isOpen}
+                        className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white
+                        ${isActive ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                      >
+                        {item.label}
+                        <svg
+                          className={`w-3 h-3 transition-transform duration-150 ${isOpen ? 'rotate-180' : ''}`}
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2.5}
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </button>
+
+                      <div
+                        role="menu"
+                        className={`absolute top-full left-0 mt-1.5 w-64 bg-white rounded-xl border border-[#d0e4e9] overflow-hidden shadow-lg z-50 origin-top transition-all duration-150
+                        ${isOpen ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'}`}
+                      >
+                        {item.dropdown.map((sub) => (
+                          <Link
+                            key={sub.to}
+                            role="menuitem"
+                            to={sub.to}
+                            onClick={() => setOpenDropdown(null)}
+                            className={`flex items-center gap-3 px-4 py-2.5 text-[13px] transition-colors border-b border-[#eaf4f7] last:border-0
+                            ${pathname === sub.to
+                                ? 'bg-[#eaf4f7] text-[#356575] font-semibold'
+                                : 'text-[#1E3D47] hover:bg-[#eaf4f7] hover:text-[#356575]'
+                              }`}
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-[#356575] opacity-60 shrink-0" />
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.to}
+                    to={item.to}
+                    className={`px-3 py-1.5 rounded-md text-[13.5px] font-medium transition-all duration-150 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white
+                    ${pathname === item.to ? 'bg-white/15 text-white' : 'text-white/80 hover:bg-white/10 hover:text-white'}`}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
-            <p className="text-white font-semibold text-[14px]">MIIT</p>
-          </Link>
-          <div className="flex items-center gap-2">
-            <Link to="/admissions" className="bg-white text-[#356575] text-[12px] font-medium px-4 py-1.5 rounded-lg">
-              Enquire
+
+            <div className="flex items-center gap-1.5">
+              {SOCIALS.map(({ href, label, path }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="w-7 h-7 bg-white/10 hover:bg-white/20 rounded-md flex items-center justify-center text-white/70 hover:text-white transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                >
+                  <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path d={path} />
+                  </svg>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Mobile nav row */}
+          <div className="flex lg:hidden items-center justify-between h-[52px] px-4">
+            <Link to="/" className="flex items-center gap-2">
+              <div className="w-8 h-8 bg-white/15 rounded-[7px] flex items-center justify-center text-white font-semibold text-[13px]">
+                M
+              </div>
+              <p className="text-white font-semibold text-[14px]">MIIT</p>
             </Link>
+
             <button
               onClick={() => setMobileOpen((p) => !p)}
               className="w-9 h-9 flex flex-col items-center justify-center gap-1.25 rounded-md bg-white/15 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
@@ -322,104 +313,113 @@ const Navbar = () => {
               )}
             </button>
           </div>
-        </div>
 
-        {mobileOpen && (
-          <div
-            id="mobile-menu-panel"
-            style={{ top: NAV_BAR_HEIGHT }}
-            className="lg:hidden fixed left-0 right-0 bg-white border-t border-[#d0e4e9] max-h-[calc(100vh-52px)] overflow-y-auto"
-          >
-            <div className="flex items-center justify-around py-3 px-4 bg-[#eaf4f7] border-b border-[#d0e4e9]">
-              <a href="tel:+919876543210" className="text-center">
-                <p className="text-[10px] text-[#7AAFC0]">Hotline</p>
-                <p className="text-[12px] font-medium text-[#1E3D47]">+91 98765 43210</p>
-              </a>
-              <div className="w-px h-8 bg-[#d0e4e9]" />
-              <a href="mailto:info@miit.edu.in" className="text-center">
-                <p className="text-[10px] text-[#7AAFC0]">Email</p>
-                <p className="text-[12px] font-medium text-[#1E3D47]">info@miit.edu.in</p>
-              </a>
-            </div>
-
-            <nav className="py-2">
-              {NAV_LINKS.map((item) => {
-                if (item.dropdown) {
-                  const isExpanded = mobileExpanded === item.label;
-                  const isActive = item.dropdown.some((d) => pathname === d.to);
-                  return (
-                    <div key={item.label}>
-                      <button
-                        onClick={() => toggleMobileExpanded(item.label)}
-                        aria-expanded={isExpanded}
-                        className={`w-full flex items-center justify-between px-5 py-3.5 text-[14px] font-medium transition-colors
-                          ${isActive ? 'text-[#356575]' : 'text-[#1E3D47]'}`}
-                      >
-                        {item.label}
-                        <svg
-                          className={`w-4 h-4 text-[#356575] transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
-                          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-
-                      {isExpanded && (
-                        <div className="bg-[#f7fbfc] border-t border-b border-[#eaf4f7]">
-                          {item.dropdown.map((sub) => (
-                            <Link
-                              key={sub.to}
-                              to={sub.to}
-                              className={`flex items-center gap-3 pl-8 pr-5 py-3 text-[13px] border-b border-[#eaf4f7] last:border-0 transition-colors
-                                ${pathname === sub.to
-                                  ? 'text-[#356575] font-semibold bg-[#eaf4f7]'
-                                  : 'text-[#356575]/80 hover:text-[#356575] hover:bg-[#eaf4f7]'
-                                }`}
-                            >
-                              <span className="w-1.5 h-1.5 rounded-full bg-[#356575] opacity-50 shrink-0" />
-                              {sub.label}
-                            </Link>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                }
-
-                return (
-                  <Link
-                    key={item.to}
-                    to={item.to}
-                    className={`flex items-center px-5 py-3.5 text-[14px] font-medium border-b border-[#f0f0f0] transition-colors
-                      ${pathname === item.to
-                        ? 'text-[#356575] bg-[#eaf4f7]'
-                        : 'text-[#1E3D47] hover:text-[#356575] hover:bg-[#f7fbfc]'
-                      }`}
-                  >
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </nav>
-
-            <div className="flex items-center gap-3 px-5 py-4 border-t border-[#d0e4e9]">
-              {SOCIALS.map(({ href, label, path }) => (
-                <a
-                  key={label}
-                  href={href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={label}
-                  className="w-9 h-9 bg-[#eaf4f7] text-[#356575] rounded-md flex items-center justify-center hover:bg-[#356575] hover:text-white transition-colors"
-                >
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d={path} /></svg>
+          {/* Mobile dropdown panel — anchored under the sticky nav bar, no manual height offset needed */}
+          {mobileOpen && (
+            <div
+              id="mobile-menu-panel"
+              className="lg:hidden absolute left-0 right-0 top-full bg-white border-t border-[#d0e4e9] max-h-[calc(100vh-104px)] overflow-y-auto"
+            >
+              <div className="flex items-center justify-around py-3 px-4 bg-[#eaf4f7] border-b border-[#d0e4e9]">
+                <a href="tel:+919876543210" className="text-center">
+                  <p className="text-[10px] text-[#7AAFC0]">Hotline</p>
+                  <p className="text-[12px] font-medium text-[#1E3D47]">+91 98765 43210</p>
                 </a>
-              ))}
-            </div>
+                <div className="w-px h-8 bg-[#d0e4e9]" />
+                <a href="mailto:info@miit.edu.in" className="text-center">
+                  <p className="text-[10px] text-[#7AAFC0]">Email</p>
+                  <p className="text-[12px] font-medium text-[#1E3D47]">info@miit.edu.in</p>
+                </a>
+              </div>
 
-          </div>
-        )}
+              <nav className="py-2">
+                {NAV_LINKS.map((item) => {
+                  if (item.dropdown) {
+                    const isExpanded = mobileExpanded === item.label;
+                    const isActive = item.dropdown.some((d) => pathname === d.to);
+                    return (
+                      <div key={item.label}>
+                        <button
+                          onClick={() => toggleMobileExpanded(item.label)}
+                          aria-expanded={isExpanded}
+                          className={`w-full flex items-center justify-between px-5 py-3.5 text-[14px] font-medium transition-colors
+                          ${isActive ? 'text-[#356575]' : 'text-[#1E3D47]'}`}
+                        >
+                          {item.label}
+                          <svg
+                            className={`w-4 h-4 text-[#356575] transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`}
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2.5}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+
+                        {isExpanded && (
+                          <div className="bg-[#f7fbfc] border-t border-b border-[#eaf4f7]">
+                            {item.dropdown.map((sub) => (
+                              <Link
+                                key={sub.to}
+                                to={sub.to}
+                                className={`flex items-center gap-3 pl-8 pr-5 py-3 text-[13px] border-b border-[#eaf4f7] last:border-0 transition-colors
+                                ${pathname === sub.to
+                                    ? 'text-[#356575] font-semibold bg-[#eaf4f7]'
+                                    : 'text-[#356575]/80 hover:text-[#356575] hover:bg-[#eaf4f7]'
+                                  }`}
+                              >
+                                <span className="w-1.5 h-1.5 rounded-full bg-[#356575] opacity-50 shrink-0" />
+                                {sub.label}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <Link
+                      key={item.to}
+                      to={item.to}
+                      className={`flex items-center px-5 py-3.5 text-[14px] font-medium border-b border-[#f0f0f0] transition-colors
+                      ${pathname === item.to
+                          ? 'text-[#356575] bg-[#eaf4f7]'
+                          : 'text-[#1E3D47] hover:text-[#356575] hover:bg-[#f7fbfc]'
+                        }`}
+                    >
+                      {item.label}
+                    </Link>
+                  );
+                })}
+              </nav>
+
+              <div className="flex items-center gap-3 px-5 py-4 border-t border-[#d0e4e9]">
+                {SOCIALS.map(({ href, label, path }) => (
+                  <a
+                    key={label}
+                    href={href}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={label}
+                    className="w-9 h-9 bg-[#eaf4f7] text-[#356575] rounded-md flex items-center justify-center hover:bg-[#356575] hover:text-white transition-colors"
+                  >
+                    <svg className="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d={path} />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* Spacer — reserves the space the fixed header occupies so page
+          content doesn't render underneath it. Height tracks the header
+          via ResizeObserver above, so it stays correct at every breakpoint. */}
+      <div style={{ height: headerHeight }} aria-hidden="true" />
     </header>
   );
 };
