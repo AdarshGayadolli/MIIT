@@ -78,7 +78,7 @@ const Home = () => {
               </h1>
 
               <p className="text-gray-500 text-[16px] md:text-[17px] leading-relaxed mb-8 max-w-md">
-                Medini Institute of Information Technology combines
+               Medini Institute of Integrated Technology combines
                 classroom learning with real industry tools, live projects,
                 and a placement cell that stays with you until you're hired.
               </p>
