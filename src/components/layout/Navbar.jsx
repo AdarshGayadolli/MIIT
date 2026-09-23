@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-
+import logo from '../../assets/images/logo.png';
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
   {
@@ -61,7 +61,7 @@ const SOCIALS = [
   },
 ];
 
-const NAV_BAR_HEIGHT = 52;
+const NAV_BAR_HEIGHT = 72;
 
 const Navbar = () => {
   const { pathname } = useLocation();
@@ -123,9 +123,7 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-16 flex items-center justify-between">
 
           <Link to="/" className="flex items-center gap-3 shrink-0">
-            <div className="w-9 h-9 bg-[#356575] rounded-[9px] flex items-center justify-center text-white font-semibold text-[14px]">
-              M
-            </div>
+        
             <div>
               <p className="text-[#1E3D47] font-semibold text-[16px] tracking-wide leading-none">MIIT</p>
               <p className="text-[#7AAFC0] text-[10px] tracking-wide mt-0.5">Institute of Technology</p>
@@ -202,9 +200,11 @@ const Navbar = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-6 h-full hidden lg:flex items-center justify-between">
 
           <Link to="/" className="flex items-center gap-2 mr-2 shrink-0">
-            <div className="w-8 h-8 bg-white/15 rounded-[7px] flex items-center justify-center text-white font-semibold text-[13px]">
-              M
-            </div>
+            <img
+              src={logo}
+              alt="MIIT Logo"
+              className="w-30 h-30 object-contain"
+            />
           </Link>
 
           <div className="flex items-center gap-0.5">

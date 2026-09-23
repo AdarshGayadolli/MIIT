@@ -4,6 +4,12 @@ import Footer from './components/layout/Footer';
 import Home from './pages/Home/Home';
 import BIM from './pages/BIM/BIM';
 import DigitalMarketing from './pages/DigitalMarketing/DigitalMarketing';
+import Management from './pages/About/Management/Management';
+import PrincipalAndDirector from './pages/About/PrincipalAndDirector/principal-director';
+import VisionAndMission from './pages/About/VisionMission/Vision-Mission';
+import Values from './pages/About/Values/Values';
+import About from './pages/About/About';
+import Admissions from './pages/Admissions/Admissions';
 
 function App() {
   return (
@@ -15,10 +21,11 @@ function App() {
             <Route path="/" element={<Home />} />
 
             {/* About Us */}
-            <Route path="/about/management" element={<div>About Management</div>} />
-            <Route path="/about/principal-director" element={<div>Principal & Director</div>} />
-            <Route path="/about/vision-mission" element={<div>Vision & Mission</div>} />
-            <Route path="/about/quality-policy" element={<div>Quality Policy & Core Values</div>} />
+            <Route path="/about/management" element={<Management />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/about/principal-director" element={<PrincipalAndDirector />} />
+            <Route path="/about/vision-mission" element={<VisionAndMission />} />
+            <Route path="/about/quality-policy" element={<Values />} />
 
             {/* Administration */}
             <Route path="/administration/organization-chart" element={<div>Organization Chart</div>} />
@@ -39,7 +46,7 @@ function App() {
             <Route path="/training-placement/statistics" element={<div>Placement Statistics</div>} />
 
             {/* Other */}
-            <Route path="/admissions" element={<div>Admissions</div>} />
+            <Route path="/admissions" element={<Admissions />} />
             <Route path="/contact" element={<div>Contact</div>} />
           </Routes>
         </main>
