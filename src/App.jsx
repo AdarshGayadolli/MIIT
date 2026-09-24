@@ -2,14 +2,19 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import Home from './pages/Home/Home';
-import BIM from './pages/BIM/BIM';
-import DigitalMarketing from './pages/DigitalMarketing/DigitalMarketing';
+// import BIM from './pages/BIM/BIM';
+
+import DigitalMarketing from './pages/Department/DigitalMarketing/DigitalMarketing';
 import Management from './pages/About/Management/Management';
 import PrincipalAndDirector from './pages/About/PrincipalAndDirector/principal-director';
 import VisionAndMission from './pages/About/VisionMission/Vision-Mission';
 import Values from './pages/About/Values/Values';
 import About from './pages/About/About';
 import Admissions from './pages/Admissions/Admissions';
+import OrganizationChart from './pages/Administration/OrganizationChart/OrganizationChart';
+import AdministrativeStaff from './pages/Administration/AdministrativeStaff/AdministrativeStaff';
+import BIM from './pages/Department/BIM/BIM';
+import Contact from './pages/Contact/Contact';
 
 function App() {
   return (
@@ -28,9 +33,9 @@ function App() {
             <Route path="/about/quality-policy" element={<Values />} />
 
             {/* Administration */}
-            <Route path="/administration/organization-chart" element={<div>Organization Chart</div>} />
+            <Route path="/administration/organization-chart" element={<OrganizationChart />} />
             <Route path="/administration/best-practices" element={<div>Best Practices</div>} />
-            <Route path="/administration/administrative-staff" element={<div>Administrative Staff</div>} />
+            <Route path="/administration/administrative-staff" element={<AdministrativeStaff />} />
 
             {/* Departments */}
             <Route path="/departments/bim-construction" element={<BIM />} />
@@ -47,7 +52,7 @@ function App() {
 
             {/* Other */}
             <Route path="/admissions" element={<Admissions />} />
-            <Route path="/contact" element={<div>Contact</div>} />
+            <Route path="/contact" element={<Contact />} />
           </Routes>
         </main>
         <Footer />

@@ -162,11 +162,11 @@ const Navbar = () => {
 
               <div className="w-px h-7 bg-[#d0e4e9]" />
 
-              <a href="mailto:info@miit.edu.in" className="flex items-center gap-2 group">
+              <a href="mailto:info@miit.ac.in" className="flex items-center gap-2 group">
                 <div>
                   <p className="text-[#7AAFC0] text-[10px]">Email us</p>
                   <p className="text-[#1E3D47] text-[13px] font-medium group-hover:text-[#356575] transition-colors">
-                    info@miit.edu.in
+                    info@miit.ac.in
                   </p>
                 </div>
               </a>
@@ -326,9 +326,9 @@ const Navbar = () => {
                   <p className="text-[12px] font-medium text-[#1E3D47]">+91 98765 43210</p>
                 </a>
                 <div className="w-px h-8 bg-[#d0e4e9]" />
-                <a href="mailto:info@miit.edu.in" className="text-center">
+                <a href="mailto:info@miit.ac.in" className="text-center">
                   <p className="text-[10px] text-[#7AAFC0]">Email</p>
-                  <p className="text-[12px] font-medium text-[#1E3D47]">info@miit.edu.in</p>
+                  <p className="text-[12px] font-medium text-[#1E3D47]">info@miit.ac.in</p>
                 </a>
               </div>
 
