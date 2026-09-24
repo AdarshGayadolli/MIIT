@@ -15,6 +15,7 @@ import OrganizationChart from './pages/Administration/OrganizationChart/Organiza
 import AdministrativeStaff from './pages/Administration/AdministrativeStaff/AdministrativeStaff';
 import BIM from './pages/Department/BIM/BIM';
 import Contact from './pages/Contact/Contact';
+import NotFound from './pages/NotFound/NotFound';
 
 function App() {
   return (
@@ -53,6 +54,8 @@ function App() {
             {/* Other */}
             <Route path="/admissions" element={<Admissions />} />
             <Route path="/contact" element={<Contact />} />
+            {/* NOT FOUND */}
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </main>
         <Footer />
