@@ -286,12 +286,6 @@ const Navbar = () => {
 
           {/* Mobile nav row */}
           <div className="flex lg:hidden items-center justify-between h-[52px] px-4">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 bg-white/15 rounded-[7px] flex items-center justify-center text-white font-semibold text-[13px]">
-                M
-              </div>
-              <p className="text-white font-semibold text-[14px]">MIIT</p>
-            </Link>
 
             <button
               onClick={() => setMobileOpen((p) => !p)}
