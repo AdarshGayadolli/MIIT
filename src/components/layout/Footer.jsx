@@ -127,7 +127,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/courses"
+                  to="/departments/bim-construction"
                   className="text-white/65 hover:text-white transition-colors"
                 >
                   Courses
@@ -136,7 +136,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/facilities"
+                  to="/administration/organization-chart"
                   className="text-white/65 hover:text-white transition-colors"
                 >
                   Campus & Facilities
@@ -181,7 +181,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/faculty"
+                  to="/departments/bim-construction"
                   className="text-white/65 hover:text-white transition-colors"
                 >
                   Faculty
