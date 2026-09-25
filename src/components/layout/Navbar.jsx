@@ -17,7 +17,7 @@ const NAV_LINKS = [
     label: 'Administration',
     dropdown: [
       { to: '/administration/organization-chart', label: 'Organization Chart' },
-      { to: '/administration/best-practices', label: 'Best Practices' },
+      // { to: '/administration/best-practices', label: 'Best Practices' },
       { to: '/administration/administrative-staff', label: 'Administrative Staff' },
     ],
   },
