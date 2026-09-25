@@ -16,6 +16,11 @@ import AdministrativeStaff from './pages/Administration/AdministrativeStaff/Admi
 import BIM from './pages/Department/BIM/BIM';
 import Contact from './pages/Contact/Contact';
 import NotFound from './pages/NotFound/NotFound';
+import AboutTrainingAndPlacement from './pages/TrainingAndPlacement/About/AboutTrainingAndPlacement';
+import PlacementCommittee from './pages/TrainingAndPlacement/PlacementCommitie/PlacementCommittee';
+import TrainingAndPlacementProcess from './pages/TrainingAndPlacement/TrainingAndPlacementProcess/TrainingAndPlacementProcess';
+import TrainingRoadmap from './pages/TrainingAndPlacement/TrainingRoadmap/TrainingRoadmap';
+import PlacementStatistics from './pages/TrainingAndPlacement/PlacementStatistics/PlacementStatistics';
 
 function App() {
   return (
@@ -43,13 +48,13 @@ function App() {
             <Route path="/departments/digital-marketing" element={<DigitalMarketing />} />
 
             {/* Training & Placement */}
-            <Route path="/training-placement/about" element={<div>About Training & Placement</div>} />
-            <Route path="/training-placement/committee" element={<div>Placement Committee</div>} />
-            <Route path="/training-placement/process" element={<div>Training & Placement Process</div>} />
-            <Route path="/training-placement/roadmap" element={<div>Training Roadmap</div>} />
-            <Route path="/training-placement/partners" element={<div>Placement Partners</div>} />
-            <Route path="/training-placement/events" element={<div>Events</div>} />
-            <Route path="/training-placement/statistics" element={<div>Placement Statistics</div>} />
+            <Route path="/training-placement/about" element={<AboutTrainingAndPlacement />} />
+            <Route path="/training-placement/committee" element={<PlacementCommittee />} />
+            <Route path="/training-placement/process" element={<TrainingAndPlacementProcess />} />
+            <Route path="/training-placement/roadmap" element={ <TrainingRoadmap/>} />
+            {/* <Route path="/training-placement/partners" element={<div>Placement Partners</div>} />
+            <Route path="/training-placement/events" element={<div>Events</div>} /> */}
+            <Route path="/training-placement/statistics" element={ <PlacementStatistics/>} />
 
             {/* Other */}
             <Route path="/admissions" element={<Admissions />} />
