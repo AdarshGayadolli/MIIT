@@ -1,328 +1,267 @@
-import { Link } from "react-router-dom";
-import logo from "../../assets/images/logo.png";
+import { Link } from 'react-router-dom';
+import logo from '../../assets/images/logo.png';
+import { MapPin, Phone, Mail, ArrowUp, ArrowRight, ChevronRight, Clock3 } from 'lucide-react';
+import { FaFacebookF, FaInstagram, FaLinkedinIn, FaYoutube } from 'react-icons/fa';
 
-import {
-  MapPin,
-  Phone,
-  Mail,
-  ArrowUp,
-} from "lucide-react";
+/* ─────────────────────────────────────────────────────────────
+   THEME — same as Navbar & pages. Change here to re-theme.
+   ───────────────────────────────────────────────────────────── */
+const BRAND = '#009688';
+const BRAND_DARK = '#00796b';
+const DEEP = '#00332e';
+const DEEPER = '#00201d';
 
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaLinkedinIn,
-  FaYoutube,
-} from "react-icons/fa";
+const HEX = 'polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)';
+
+const SOCIALS = [
+  { label: 'Facebook', href: 'https://facebook.com', icon: FaFacebookF },
+  { label: 'Instagram', href: 'https://instagram.com', icon: FaInstagram },
+  { label: 'LinkedIn', href: 'https://linkedin.com', icon: FaLinkedinIn },
+  { label: 'YouTube', href: 'https://youtube.com', icon: FaYoutube },
+];
+
+const QUICK_LINKS = [
+  { to: '/', label: 'Home' },
+  { to: '/about/management', label: 'About Us' },
+  { to: '/admissions', label: 'Admissions' },
+  { to: '/administration/organization-chart', label: 'Administration' },
+  { to: '/training-placement/about', label: 'Training & Placement' },
+  { to: '/contact', label: 'Contact Us' },
+];
+
+const ACADEMICS = [
+  { to: '/departments/bim-construction', label: 'BIM for Construction' },
+  { to: '/departments/digital-marketing', label: 'Digital Marketing' },
+  { to: '/training-placement/roadmap', label: 'Training Roadmap' },
+  { to: '/training-placement/process', label: 'Placement Process' },
+  { to: '/training-placement/statistics', label: 'Placement Statistics' },
+  { to: '/about/quality-policy', label: 'Quality Policy' },
+];
+
+const LEGAL = [
+  { to: '/privacy-policy', label: 'Privacy Policy' },
+  { to: '/terms', label: 'Terms & Conditions' },
+  { to: '/refund-policy', label: 'Refund Policy' },
+];
+
+const FooterLink = ({ to, children }) => (
+  <li>
+    <Link
+      to={to}
+      className="group inline-flex items-center gap-1.5 text-[14px] text-white/70 hover:text-white transition-colors"
+    >
+      <ChevronRight
+        size={14}
+        className="-ml-1 opacity-0 -translate-x-1 transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-0"
+        style={{ color: '#4db6ac' }}
+      />
+      <span className="transition-transform duration-200 group-hover:translate-x-0.5">{children}</span>
+    </Link>
+  </li>
+);
+
+const ColumnTitle = ({ children }) => (
+  <h3 className="text-[13px] font-bold uppercase tracking-[0.18em] text-white">
+    {children}
+    <span className="block mt-2 w-8 h-[3px] rounded-full" style={{ background: '#4db6ac' }} />
+  </h3>
+);
+
+const ContactRow = ({ icon: Icon, children, href }) => {
+  const inner = (
+    <>
+      <span
+        className="shrink-0 w-10 h-[46px] flex items-center justify-center text-white"
+        style={{ clipPath: HEX, background: 'rgba(255,255,255,0.1)' }}
+      >
+        <Icon size={16} strokeWidth={1.9} />
+      </span>
+      <span className="text-[14px] leading-6 text-white/75 group-hover:text-white transition-colors">{children}</span>
+    </>
+  );
+  return href ? (
+    <a href={href} className="group flex items-center gap-3">
+      {inner}
+    </a>
+  ) : (
+    <div className="group flex items-center gap-3">{inner}</div>
+  );
+};
 
 const Footer = () => {
-  const handleScrollTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
+  const handleScrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' });
 
   return (
-    <footer className="bg-[#1E3D47] text-white">
-      {/* Main Footer */}
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 pt-16 pb-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-12">
+    <footer className="relative text-white overflow-hidden" style={{ background: `linear-gradient(160deg, ${DEEP} 0%, ${DEEPER} 100%)` }}>
+      {/* decorative hexagons */}
+      <div
+        className="hidden lg:block absolute -top-24 -right-20 w-80 h-[370px] opacity-[0.06] bg-white"
+        style={{ clipPath: HEX }}
+        aria-hidden="true"
+      />
+      <div
+        className="hidden lg:block absolute bottom-10 -left-24 w-64 h-72 opacity-[0.05] bg-white"
+        style={{ clipPath: HEX }}
+        aria-hidden="true"
+      />
 
-          {/* College Info */}
-          <div className="lg:col-span-1">
-            <Link to="/" className="inline-flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 bg-white rounded-xl flex items-center justify-center p-1.5">
-                <img
-                  src={logo}
-                  alt="MIIT College Logo"
-                  className="w-full h-full object-contain"
-                />
-              </div>
+      {/* ══════════ ENQUIRY BANNER ══════════ */}
+      <div className="relative max-w-[1300px] mx-auto px-6 pt-14">
+        <div
+          className="relative overflow-hidden rounded-3xl px-7 py-8 md:px-12 md:py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 shadow-2xl shadow-black/30"
+          style={{ background: `linear-gradient(120deg, ${BRAND_DARK}, ${BRAND})` }}
+        >
+          <div
+            className="hidden sm:block absolute -right-10 -top-10 w-44 h-52 bg-white/10"
+            style={{ clipPath: HEX }}
+            aria-hidden="true"
+          />
+          <div
+            className="hidden sm:block absolute right-32 -bottom-12 w-28 h-32 bg-white/10"
+            style={{ clipPath: HEX }}
+            aria-hidden="true"
+          />
+          <div className="relative">
+            <h2 className="text-[24px] md:text-[32px] font-extrabold leading-tight tracking-tight">
+              Ready to start your career journey?
+            </h2>
+            <p className="mt-2 text-[14.5px] text-white/85 max-w-xl leading-7">
+              Admissions are open for the 2026–27 batches. Talk to our team and find the right program for you.
+            </p>
+          </div>
+          <div className="relative flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              to="/admissions"
+              className="group inline-flex items-center gap-3 bg-white rounded-full text-[14px] font-bold pl-6 pr-1.5 py-1.5 hover:shadow-xl transition-all hover:-translate-y-px"
+              style={{ color: BRAND_DARK }}
+            >
+              Apply for Admission
+              <span className="w-8 h-8 rounded-full flex items-center justify-center text-white transition-transform group-hover:translate-x-0.5" style={{ background: BRAND }}>
+                <ArrowRight size={16} strokeWidth={2.6} />
+              </span>
+            </Link>
+            <Link
+              to="/contact"
+              className="border-2 border-white/60 hover:border-white hover:bg-white/10 text-white text-[14px] font-bold px-6 py-2.5 rounded-full transition-colors"
+            >
+              Talk to an advisor
+            </Link>
+          </div>
+        </div>
+      </div>
 
-              <div>
-                <h2 className="text-lg font-bold tracking-wide">
-                  MIIT College
-                </h2>
-                <p className="text-xs text-white/60">
-                  Education • Innovation • Excellence
-                </p>
-              </div>
+      {/* ══════════ MAIN FOOTER ══════════ */}
+      <div className="relative max-w-[1300px] mx-auto px-6 pt-16 pb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[1.4fr_0.8fr_1fr_1.2fr] gap-12 lg:gap-10">
+          {/* College info */}
+          <div>
+            <Link to="/" className="inline-flex items-center gap-3" aria-label="MIIT home">
+              <span
+                className="w-[58px] h-[66px] bg-white flex items-center justify-center p-3.5"
+                style={{ clipPath: HEX }}
+              >
+                <img src={logo} alt="MIIT Logo" className="w-full h-full object-contain" />
+              </span>
+              <span>
+                <span className="block text-[20px] font-extrabold tracking-wide leading-tight">MIIT College</span>
+                <span className="block text-[12px] text-white/60 mt-0.5">Education • Innovation • Excellence</span>
+              </span>
             </Link>
 
-            <p className="text-sm leading-6 text-white/65 max-w-sm">
-              Empowering students with quality education, practical knowledge,
-              innovation, and the skills required to build a successful future.
+            <p className="mt-5 text-[14px] leading-7 text-white/70 max-w-sm">
+              Medini Institute of Integrated Technology empowers students with industry-aligned training, live
+              projects and placement support, so every graduate is job-ready from day one.
             </p>
 
-            {/* Social Media */}
-            <div className="flex items-center gap-3 mt-6">
-              <a
-                href="#"
-                aria-label="Facebook"
-                className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-[#7AAFC0] hover:text-[#1E3D47] transition-all duration-200"
-              >
-                <FaFacebookF size={15} />
-              </a>
-
-              <a
-                href="#"
-                aria-label="Instagram"
-                className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-[#7AAFC0] hover:text-[#1E3D47] transition-all duration-200"
-              >
-                <FaInstagram size={15} />
-              </a>
-
-              <a
-                href="#"
-                aria-label="LinkedIn"
-                className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-[#7AAFC0] hover:text-[#1E3D47] transition-all duration-200"
-              >
-                <FaLinkedinIn size={15} />
-              </a>
-
-              <a
-                href="#"
-                aria-label="YouTube"
-                className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-[#7AAFC0] hover:text-[#1E3D47] transition-all duration-200"
-              >
-                <FaYoutube size={15} />
-              </a>
+            <div className="mt-6 flex items-center gap-3">
+              {SOCIALS.map(({ label, href, icon: Icon }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="w-11 h-[50px] flex items-center justify-center text-white transition-all duration-200 hover:scale-110 hover:text-[#00332e]"
+                  style={{ clipPath: HEX, background: 'rgba(255,255,255,0.1)' }}
+                  onMouseEnter={(e) => (e.currentTarget.style.background = '#4db6ac')}
+                  onMouseLeave={(e) => (e.currentTarget.style.background = 'rgba(255,255,255,0.1)')}
+                >
+                  <Icon size={15} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Quick links */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-5">
-              Quick Links
-            </h3>
-
-            <ul className="space-y-3 text-sm">
-              <li>
-                <Link
-                  to="/"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Home
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/about"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  About Us
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/admissions"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Admissions
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/departments/bim-construction"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Courses
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/administration/organization-chart"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Campus & Facilities
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/contact"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Contact Us
-                </Link>
-              </li>
+            <ColumnTitle>Quick Links</ColumnTitle>
+            <ul className="mt-6 space-y-3">
+              {QUICK_LINKS.map((l) => (
+                <FooterLink key={l.label} to={l.to}>
+                  {l.label}
+                </FooterLink>
+              ))}
             </ul>
           </div>
 
           {/* Academics */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-5">
-              Academics
-            </h3>
-
-            <ul className="space-y-3 text-sm">
-              <li>
-                <Link
-                  to="/departments/bim-construction"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Departments
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/departments/bim-construction"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Academic Programs
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/departments/bim-construction"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Faculty
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/examinations"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Examinations
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/results"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Results
-                </Link>
-              </li>
-
-              <li>
-                <Link
-                  to="/notice-board"
-                  className="text-white/65 hover:text-white transition-colors"
-                >
-                  Notice Board
-                </Link>
-              </li>
+            <ColumnTitle>Academics</ColumnTitle>
+            <ul className="mt-6 space-y-3">
+              {ACADEMICS.map((l) => (
+                <FooterLink key={l.label} to={l.to}>
+                  {l.label}
+                </FooterLink>
+              ))}
             </ul>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-sm font-semibold uppercase tracking-wider mb-5">
-              Contact Us
-            </h3>
-
-            <div className="space-y-5 text-sm">
-
-              {/* Address */}
-              <div className="flex items-start gap-3">
-                <MapPin
-                  size={18}
-                  className="text-[#7AAFC0] mt-0.5 shrink-0"
-                />
-
-                <p className="text-white/65 leading-5">
-                  MIIT College
-                  <br />
-                  Bengaluru, Karnataka
-                  <br />
-                  India
-                </p>
-              </div>
-
-              {/* Phone */}
-              <a
-                href="tel:+910000000000"
-                className="flex items-center gap-3 text-white/65 hover:text-white transition-colors"
-              >
-                <Phone
-                  size={17}
-                  className="text-[#7AAFC0] shrink-0"
-                />
-                <span>+91 00000 00000</span>
-              </a>
-
-              {/* Email */}
-              <a
-                href="mailto:info@miitcollege.edu"
-                className="flex items-center gap-3 text-white/65 hover:text-white transition-colors"
-              >
-                <Mail
-                  size={17}
-                  className="text-[#7AAFC0] shrink-0"
-                />
-                <span>info@miitcollege.ac.in</span>
-              </a>
+            <ColumnTitle>Contact Us</ColumnTitle>
+            <div className="mt-6 space-y-4">
+              <ContactRow icon={MapPin}>
+                MIIT College, Bengaluru,
+                <br />
+                Karnataka, India
+              </ContactRow>
+              <ContactRow icon={Phone} href="tel:+919876543210">
+                +91 98765 43210
+              </ContactRow>
+              <ContactRow icon={Mail} href="mailto:info@miit.ac.in">
+                info@miit.ac.in
+              </ContactRow>
+              <ContactRow icon={Clock3}>Mon – Sat, 9:00 AM – 5:30 PM</ContactRow>
             </div>
-
-            {/* Admission Button */}
-            <Link
-              to="/admissions"
-              className="inline-flex items-center justify-center mt-6 px-5 py-2.5 rounded-lg bg-[#7AAFC0] text-[#1E3D47] text-sm font-semibold hover:bg-white transition-all duration-200"
-            >
-              Apply for Admission
-            </Link>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="h-px bg-white/10 mt-12 mb-6" />
+        {/* divider */}
+        <div className="mt-14 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)' }} />
 
-        {/* Bottom Section */}
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-
+        {/* bottom bar */}
+        <div className="mt-6 flex flex-col md:flex-row items-center justify-between gap-5">
           <div className="text-center md:text-left">
-            <p className="text-sm text-white/60">
-              © 2026 MIIT College. All Rights Reserved.
-            </p>
-
-            <p className="text-xs text-white/40 mt-1">
-              Bengaluru, Karnataka, India
-            </p>
+            <p className="text-[13px] text-white/65">© {new Date().getFullYear()} MIIT College. All Rights Reserved.</p>
+            <p className="text-[12px] text-white/40 mt-1">Bengaluru, Karnataka, India</p>
           </div>
 
-          {/* Legal Links */}
-          <div className="flex items-center gap-5 text-xs text-white/50">
-            <Link
-              to="/privacy-policy"
-              className="hover:text-white transition-colors"
-            >
-              Privacy Policy
-            </Link>
-
-            <Link
-              to="/terms"
-              className="hover:text-white transition-colors"
-            >
-              Terms & Conditions
-            </Link>
-
-            <Link
-              to="/refund-policy"
-              className="hover:text-white transition-colors"
-            >
-              Refund Policy
-            </Link>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-[12.5px] text-white/55">
+            {LEGAL.map((l) => (
+              <Link key={l.label} to={l.to} className="hover:text-white transition-colors">
+                {l.label}
+              </Link>
+            ))}
           </div>
 
-          {/* Back To Top */}
           <button
+            type="button"
             onClick={handleScrollTop}
             aria-label="Back to top"
-            className="w-9 h-9 rounded-lg bg-white/10 flex items-center justify-center hover:bg-[#7AAFC0] hover:text-[#1E3D47] transition-all duration-200"
+            className="w-12 h-14 flex items-center justify-center text-white transition-all duration-200 hover:-translate-y-1 focus-visible:outline focus-visible:outline-2 focus-visible:outline-white"
+            style={{ clipPath: HEX, background: BRAND }}
           >
-            <ArrowUp size={17} />
+            <ArrowUp size={18} strokeWidth={2.4} />
           </button>
         </div>
       </div>
