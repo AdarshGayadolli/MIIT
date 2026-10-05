@@ -322,7 +322,7 @@ const Navbar = () => {
           <div className="max-w-[1500px] mx-auto px-4 md:px-8 h-[68px] lg:h-[84px] flex items-center justify-between gap-6">
             {/* Logo */}
             <Link to="/" className="flex items-center shrink-0" aria-label="MIIT home">
-              <img src={logo} alt="MIIT Logo" className="h-11 lg:h-14 w-auto object-contain" />
+              <img src={logo} alt="MIIT Logo" className="h-20 lg:h-14 w-auto object-contain" />
             </Link>
 
             {/* Desktop nav */}
